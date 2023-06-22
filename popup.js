@@ -4,6 +4,8 @@ document.querySelectorAll("button").forEach((button) => {
       chrome.tabs.sendMessage(tabs[0].id, {
         color: button.id,
       });
+
+      chrome.storage.local.set({ selected_color: button.id });
     });
   });
 });
