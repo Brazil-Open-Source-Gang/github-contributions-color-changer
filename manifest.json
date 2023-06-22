@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+  "name": "Contributions Color Customizer",
+  "version": "1.0",
+  "permissions": ["activeTab", "storage"],
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
