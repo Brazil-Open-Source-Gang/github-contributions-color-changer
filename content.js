@@ -41,60 +41,38 @@ const colors = {
   },
 };
 
-// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-//   // B-BUT WE SHOULD USE A RECURSIVE FUNCTION AND NOT SELECT ALL MANUALLY
-//   // dude... it's a demo
-//   // chill
-
-//   const blocks1 = document.querySelectorAll('[data-level="1"]');
-//   const blocks2 = document.querySelectorAll('[data-level="2"]');
-//   const blocks3 = document.querySelectorAll('[data-level="3"]');
-//   const blocks4 = document.querySelectorAll('[data-level="4"]');
-
-//   // blocks.forEach((block) => {
-//   //   block.style.backgroundColor = request.color;
-//   // });
-
-//   blocks1.forEach((block) => {
-//     block.style.backgroundColor = colors.red.level.four;
-//     block.style.opacity = 0.25;
-//   });
-
-//   blocks2.forEach((block) => {
-//     block.style.backgroundColor = colors.red.level.two;
-//   });
-
-//   blocks3.forEach((block) => {
-//     block.style.backgroundColor = colors.red.level.tree;
-//   });
-
-//   blocks4.forEach((block) => {
-//     block.style.backgroundColor = colors.red.level.four;
-//   });
-
-//   console.log(request);
-// });
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+function setColorsOnGithub(selectedColor) {
   const blocks1 = document.querySelectorAll('[data-level="1"]');
   const blocks2 = document.querySelectorAll('[data-level="2"]');
   const blocks3 = document.querySelectorAll('[data-level="3"]');
   const blocks4 = document.querySelectorAll('[data-level="4"]');
 
   blocks1.forEach((block) => {
-    block.style.backgroundColor = colors[request.color].level.one;
+    block.style.backgroundColor = colors[selectedColor].level.one;
     block.style.opacity = 0.25;
   });
 
   blocks2.forEach((block) => {
-    block.style.backgroundColor = colors[request.color].level.two;
+    block.style.backgroundColor = colors[selectedColor].level.two;
   });
 
   blocks3.forEach((block) => {
-    block.style.backgroundColor = colors[request.color].level.tree;
+    block.style.backgroundColor = colors[selectedColor].level.tree;
   });
 
   blocks4.forEach((block) => {
-    block.style.backgroundColor = colors[request.color].level.four;
+    block.style.backgroundColor = colors[selectedColor].level.four;
   });
+}
+
+chrome.runtime.onMessage.addListener((request) => {
+  setColorsOnGithub(request.color);
+});
+
+chrome.storage.local.get("selected_color", function (resultado) {
+  if (resultado.selected_color) {
+    setColorsOnGithub(resultado.selected_color);
+  } else {
+    setColorsOnGithub("green");
+  }
 });
